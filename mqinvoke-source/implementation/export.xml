@@ -1,0 +1,77 @@
+<datapower-configuration version="3">
+    <export-details>
+        <description>Exported Configuration</description>
+        <user>admin</user>
+        <domain>default</domain><comment/>
+        <product-id>5725</product-id>
+        <product>IDG</product>
+        <display-product>IDG</display-product>
+        <model>IBM DataPower Gateway</model>
+        <display-model>IBM DataPower Gateway</display-model>
+        <device-name>IBM DataPower Gateway</device-name>
+        <serial-number>0000000</serial-number>
+        <firmware-version>IDG.7.5.1.0</firmware-version>
+        <display-firmware-version>IDG.7.5.1.0</display-firmware-version>
+        <firmware-build>277257</firmware-build>
+        <firmware-timestamp>2016/05/26 23:22:58</firmware-timestamp>
+        <current-date>2016-09-19</current-date>
+        <current-time>13:50:43 UTC</current-time>
+        <reset-date>2016-09-19</reset-date>
+        <reset-time>08:43:31 UTC</reset-time><login-message/><custom-ui-file/></export-details>
+    <interface-data>
+        <interface name="eth0" type="Ethernet" vers="ipv4" ip-addr="192.168.225.52"/>
+    </interface-data>
+    <configuration domain="default">
+        <StylePolicyAction name="mqinvoke-sendMessage" xmlns:env="http://www.w3.org/2003/05/soap-envelope" xmlns:dp="http://www.datapower.com/schemas/management">
+            <mAdminState>enabled</mAdminState>
+            <Type>gatewayscript</Type>
+            <Input>INPUT</Input>
+            <InputLanguage>json</InputLanguage>
+            <TransformLanguage>none</TransformLanguage>
+            <OutputLanguage>default</OutputLanguage>
+            <GatewayScriptLocation>local://policy/mqinvoke/writeToQueue.js</GatewayScriptLocation>
+            <ActionDebug persisted="false">off</ActionDebug>
+            <TxMode>default</TxMode>
+            <Output>OUTPUT</Output>
+            <NamedInOutLocationType>default</NamedInOutLocationType>
+            <SSLClientConfigType>proxy</SSLClientConfigType>
+            <OutputType>default</OutputType>
+            <Transactional>off</Transactional>
+            <SOAPValidation>body</SOAPValidation>
+            <SQLSourceType>static</SQLSourceType>
+            <JOSESerializationType>compact</JOSESerializationType>
+            <JWEEncAlgorithm>A128CBC-HS256</JWEEncAlgorithm>
+            <JOSEVerifyType>identifiers</JOSEVerifyType>
+            <JOSEDecryptType>identifiers</JOSEDecryptType>
+            <JWSVerifyStripSignature>on</JWSVerifyStripSignature>
+            <Asynchronous>off</Asynchronous>
+            <ResultsMode>first-available</ResultsMode>
+            <RetryCount>0</RetryCount>
+            <RetryInterval>1000</RetryInterval>
+            <MultipleOutputs>off</MultipleOutputs>
+            <IteratorType>XPATH</IteratorType>
+            <Timeout>0</Timeout>
+            <MethodRewriteType>GET</MethodRewriteType>
+            <MethodType>POST</MethodType>
+            <MethodType2>POST</MethodType2>
+        </StylePolicyAction>
+        <StylePolicyRule name="mqinvoke-main" xmlns:env="http://www.w3.org/2003/05/soap-envelope" xmlns:dp="http://www.datapower.com/schemas/management">
+            <mAdminState>enabled</mAdminState>
+            <Direction>rule</Direction>
+            <InputFormat>none</InputFormat>
+            <OutputFormat>none</OutputFormat>
+            <NonXMLProcessing>on</NonXMLProcessing>
+            <Unprocessed>off</Unprocessed>
+            <Actions class="StylePolicyAction">mqinvoke-sendMessage</Actions>
+        </StylePolicyRule>
+    </configuration>
+    <files>
+        <file name="local:///policy/mqinvoke/writeToQueue.js" src="local/policy/mqinvoke/writeToQueue.js" location="local" hash="ibkiAdiGj+DcyIbnStCfI5DF1tk="/>
+        <file name="webgui:///clixform.xsl" src="dp-aux/clixform.xsl" location="dp-aux" internal="true" hash="6SlW5CAIMAdTwlasyrys7rFtLLI="/>
+        <file name="webgui:///SchemaUtil.xsl" src="dp-aux/SchemaUtil.xsl" location="dp-aux" internal="true" hash="YWjVARwxJCW3zkIbcgQw2UJL1kM="/>
+        <file name="webgui:///management.xsl" src="dp-aux/management.xsl" location="dp-aux" internal="true" hash="jaVBcAZOZmnnAJfQcSbjdqhK1ks="/>
+        <file name="webgui:///map-dmz.xsl" src="dp-aux/map-dmz.xsl" location="dp-aux" internal="true" hash="n00B2bmGoH6OdSOW1QRz/SNVbYc="/>
+        <file name="webgui:///drMgmt.xml" src="dp-aux/drMgmt.xml" location="dp-aux" internal="true" hash="+EvQy2Vah/JDDvX129+V8lK5iiM="/>
+        <file name="webgui:///basetypes.xml" src="dp-aux/basetypes.xml" location="dp-aux" internal="true" hash="UkIc6sKzykqNpmVlsHF89TLn2Qo="/>
+    </files>
+</datapower-configuration>

@@ -1,0 +1,54 @@
+#      Licensed Materials - Property of IBM
+#
+#      © IBM Corp. 2016
+
+policy: 1.0.0
+
+info:
+  title: MQ Invoke
+  name: mqinvoke
+  version: 1.0.0
+  description: MQ Invocation from DataPower
+  contact:
+        name: Jack dunleavy
+        name: Chris Phillips
+        name: Charlotte Hutchinson
+        email: charlotte.hutchinson@uk.ibm.com
+        email: chris.phillips@uk.ibm.com
+        email: jack.dunleavy@uk.ibm.com
+
+attach:
+    - rest
+    - soap
+
+properties:
+    $schema: "http://json-schema.org/draft-04/schema#"
+    type: object
+    properties:
+        queuemanager:
+            label: Queue Manager
+            description: The Queue Manager Object or Queue Manager Group Object created in DataPower
+            type: string
+        queue:
+            label: Queue name
+            description: The Queue to be used
+            type: string
+        replyqueue:
+             label: Reply Queue name
+             description: "The Reply Queue to be used, leave blank if not Synchronous"
+             type: string
+        backoutq:
+              label: BackOut queue name
+              description: "Backout Queue name"
+              type: string
+        timeout:
+            label: Timeout
+            description: Timeout in milliseconds
+            type: number
+            default: 100
+    required:
+      - queuemanager
+      - queue
+      - timeout
+gateways:
+    - datapower-gateway

@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding='UTF-8'?> 
+<!--
+  Licensed Materials - Property of IBM
+  IBM WebSphere DataPower Appliances
+  Copyright IBM Corporation 2007, 2015. All Rights Reserved.
+  US Government Users Restricted Rights - Use, duplication or disclosure
+  restricted by GSA ADP Schedule Contract with IBM Corp.
+-->
+<base-types>
+
+<!--==============================================================-->
+<!-- these are the base types defined in drMgmtBase.h -->
+<!-- init: indicates what type of initializer the type takes -->
+<!--==============================================================-->
+
+        <type name="dmUInt32" init="number">
+            <!--START NON-TRANSLATABLE-->
+            <minimum>0</minimum>
+            <maximum>0xFFFFFFFF</maximum>
+            <cli-arg>number</cli-arg>
+        </type>
+        <type name="dmUInt64" init="number">
+            <minimum>0</minimum>
+            <maximum>0xFFFFFFFFFFFFFFFF</maximum>
+            <cli-arg>number</cli-arg>
+        </type>
+        <type name="dmCounter32" init="number">
+            <minimum>0</minimum>
+            <maximum>0xFFFFFFFF</maximum>
+            <cli-arg>number</cli-arg>
+        </type>
+        <type name="dmCounter64" init="number">
+            <minimum>0</minimum>
+            <maximum>0xFFFFFFFFFFFFFFFF</maximum>
+            <cli-arg>number</cli-arg>
+        </type>
+        <!-- seconds -->
+        <type name="dmTimeInterval" init="number">
+            <minimum>0</minimum>
+            <maximum>0xFFFFFFFF</maximum>
+            <cli-arg>seconds</cli-arg>
+        </type>
+        <type name="dmTimeIntervalHundredths" init="number">
+            <minimum>0</minimum>
+            <maximum>0xFFFFFFFF</maximum>
+            <cli-arg>hundredths-seconds</cli-arg>
+        </type>
+        <type name="dmTimeTicks" init="number">
+            <minimum>0</minimum>
+            <maximum>0xFFFFFFFF</maximum>
+            <cli-arg>timeticks</cli-arg>
+        </type>      
+        <type name="dmTimeTicksISO" init="number">
+            <minimum>0</minimum>
+            <maximum>0xFFFFFFFF</maximum>
+            <cli-arg>timeticksiso</cli-arg>
+        </type>      
+        <type name="dmTimeIntervalMillis" init="number">
+            <minimum>0</minimum>
+            <maximum>0xFFFFFFFF</maximum>
+            <cli-arg>milliseconds</cli-arg>
+        </type>
+        <!-- time since epoch -->
+        <type name="dmTimestamp" init="number">
+            <minimum>0</minimum>
+            <maximum>0xFFFFFFFF</maximum>
+            <cli-arg>timestamp</cli-arg>
+        </type>
+        <type name="dmUInt16" init="number">
+            <minimum>0</minimum>
+            <maximum>0xFFFF</maximum>
+            <cli-arg>number</cli-arg>
+        </type>
+        <type name="dmIPPort" init="number">
+            <minimum>0</minimum>
+            <maximum>0xFFFF</maximum>
+            <cli-arg>ip-port</cli-arg>
+            <!--END NON-TRANSLATABLE-->            
+        </type>
+        <type name="dmLocalIPHostAddress" init="string" >
+            <format>(a.b.c.d or 0 for any)</format>
+            <!--START NON-TRANSLATABLE-->
+            <cli-arg>dotted-ip or 0 for any</cli-arg>
+            <!--END NON-TRANSLATABLE-->            
+        </type>
+        <type name="dmIPHostAddress" init="string">
+            <format>(a.b.c.d)</format>
+            <!--START NON-TRANSLATABLE-->
+            <cli-arg>dotted-ip</cli-arg>
+            <!--END NON-TRANSLATABLE-->
+        </type>
+        <type name="dmIPNetAddress" init="string">
+            <format>(a.b.c.d/e)</format>
+            <!--START NON-TRANSLATABLE-->
+            <cli-arg>dotted-ip/mask</cli-arg>
+            <!--END NON-TRANSLATABLE-->
+        </type>
+        <type name="dmHostname" init="string">
+            <format>(a.b.c.d or hostname)</format>
+            <!--START NON-TRANSLATABLE-->
+            <cli-arg>dotted-ip or hostname</cli-arg>
+        </type>
+        <type name="dmString" init="string">
+            <cli-arg>string</cli-arg>
+        </type>
+        <type name="dmFormattedText" init="string">
+            <cli-arg>formatted string</cli-arg>
+        </type>
+	<type name="dmPasswordAlias" init="string">
+	    <cli-arg>password-alias</cli-arg>
+	</type>
+        <type name="dmPCRE" init="string">
+            <cli-arg>pcre</cli-arg>
+        </type>
+        <type name="dmXPathExpr" init="string">
+            <cli-arg>xpath</cli-arg>
+        </type>
+        <type name="dmEventCode" init="string">
+            <cli-arg>event-code</cli-arg>
+        </type>
+        <type name="dmEventCodeMatch" init="string">
+            <cli-arg>event-code match</cli-arg>
+        </type>
+        <type name="dmURL" init="string">
+            <cli-arg>url</cli-arg>
+            <!--END NON-TRANSLATABLE-->
+        </type>
+        <type name="dmMACAddress" init="string">
+            <format>(a:b:c:d:e:f)</format>
+            <!--START NON-TRANSLATABLE-->
+            <cli-arg>MAC a:b:c:d:e:f</cli-arg>
+        </type>
+        <type name="dmFSDirectory" init="string">
+            <cli-arg>directory</cli-arg>
+        </type>
+        <type name="dmFSFile" init="string">
+            <cli-arg>file</cli-arg>
+            <!--END NON-TRANSLATABLE-->
+        </type>
+        <type name="dmAdminState" init="enumeration">
+          <value-list>
+            <value name="enabled" evalue="1">
+                <display>enabled</display>
+            </value>
+            <value name="disabled" evalue="2">
+                <display>disabled</display>
+            </value>
+          </value-list>
+          <!--START NON-TRANSLATABLE-->
+          <cli-arg>enabled | disabled</cli-arg>
+          <!--END NON-TRANSLATABLE-->          
+        </type>
+        <type name="dmOpState" init="enumeration">
+
+          <value-list>
+            <value name="up" evalue="1">
+                <display>up</display>
+            </value>
+            <value name="down" evalue="2">
+                <display>down</display>
+            </value>
+          </value-list>
+          <!--START NON-TRANSLATABLE-->
+          <cli-arg>up | down</cli-arg>
+          <!--END NON-TRANSLATABLE-->          
+        </type>
+        <type name="dmToggle" init="enumeration">
+          <value-list>
+            <value name="on" evalue="1">
+                <display>on</display>
+            </value>           
+            <value name="off" evalue="2">
+                <display>off</display>
+            </value>
+          </value-list>
+          <!--START NON-TRANSLATABLE-->
+          <cli-arg>on | off</cli-arg>
+        </type>
+        <type name="dmReference" init="pointer">
+            <cli-arg>object</cli-arg>
+        </type>
+        <type name="dmObjectClass" init="string">
+            <cli-arg>object class</cli-arg>
+        </type>
+        <type name="dmResourceURI" init="string">
+            <cli-arg>resource uri</cli-arg>
+            <!--END NON-TRANSLATABLE-->
+        </type>
+        <type name="dmWSMIdentifier" init="string">
+            <display>WSM Identifier</display>
+            <summary>Network unique resource id</summary>
+            <description>WSM identifiers are used by Datapower products to specify and correlate resources.</description>
+        </type>
+        <type name="dmTimeOfDay" init="string">
+            <display>HH:MM</display>
+            <summary>Time of day in minute resolution using 24 hour time semantics</summary>
+            <description>Time of day in minute resolution using 24 hour time semantics.</description>
+            <!--START NON-TRANSLATABLE-->
+            <cli-arg>time HH:MM</cli-arg>
+            <!--END NON-TRANSLATABLE-->
+        </type>
+        <type name="dmXMLLocalName" init="string">
+            <display>XML Local Name</display>
+            <summary>The local name for an XML element or attribute.</summary>
+            <description>Set the local name for an XML element or attribute.</description>
+            <!--START NON-TRANSLATABLE-->
+            <cli-arg>localname</cli-arg>
+            <!--END NON-TRANSLATABLE-->
+        </type>
+        <type name="dmInt32" init="number">
+            <!-- for -2147483648  use hex to avoid compile error -->
+            <!--START NON-TRANSLATABLE-->
+            <minimum>0x80000000</minimum>
+            <maximum>2147483647</maximum>
+            <cli-arg>number</cli-arg>
+        </type>
+        <type name="dmGauge32" init="number">
+            <minimum>0</minimum>
+            <maximum>0xFFFFFFFF</maximum>
+            <cli-arg>number</cli-arg>
+            <!--END NON-TRANSLATABLE-->
+        </type>
+        <type name="dmFragmentID" init="string">
+            <display>WSDL Fragment Identifier</display>
+            <summary>The WSDL Fragment Identifier</summary>
+            <description>Set the WSDL Fragment Identifier</description>
+            <!--START NON-TRANSLATABLE-->
+            <cli-arg>fragmentid</cli-arg>
+        </type>
+        <!-- These dmInet* types are TEXTUAL-CONVENTIONS from RFC 4001 -->
+        <!-- The "display" value is a keyword from the kernel and should not be translated -->
+        <type name="dmInetAddressType" init="enumeration">
+            <value-list>
+                <value name="unknown" evalue="0">
+                  <display>unknown</display>
+            <!--END NON-TRANSLATABLE-->
+                  <summary>An unknown address type</summary>
+                </value>
+            <!--START NON-TRANSLATABLE-->
+                <value name="ipv4" evalue="1">
+                  <display>ipv4</display>
+            <!--END NON-TRANSLATABLE-->
+                  <summary>An IPv4 address</summary>
+                </value>
+            <!--START NON-TRANSLATABLE-->
+                <value name="ipv6" evalue="2">
+                  <display>ipv6</display>
+            <!--END NON-TRANSLATABLE-->
+                  <summary>An IPv6 address</summary>
+                </value>
+            <!--START NON-TRANSLATABLE-->
+                <value name="ipv4z" evalue="3">
+                  <display>ipv4z</display>
+            <!--END NON-TRANSLATABLE-->
+                  <summary>A nonglobal IPv4 address with a zone index</summary>
+                </value>
+            <!--START NON-TRANSLATABLE-->
+                <value name="ipv6z" evalue="4">
+                  <display>ipv6z</display>
+            <!--END NON-TRANSLATABLE-->
+                  <summary>A nonglobal IPv6 address with a zone index</summary>
+                </value>
+            <!--START NON-TRANSLATABLE-->
+                <value name="dns" evalue="16">
+                  <display>dns</display>
+            <!--END NON-TRANSLATABLE-->
+                  <summary>A DNS domain name</summary>
+                </value>
+            <!--START NON-TRANSLATABLE-->
+            </value-list>
+            <cli-arg>unknown | ipv4 | ipv6 | ipv4z | ipv6z | dns</cli-arg>
+        </type>
+
+        <type name="dmDate" init="string">
+            <cli-arg>date yyyy-MM-dd</cli-arg>
+        </type>
+        <type name="dmInetAddress" init="string">
+            <cli-arg>IP address or DNS name</cli-arg>
+        </type>
+        <type name="dmInetAddressPrefixLength" init="number">
+            <minimum>0</minimum>
+            <maximum>2040</maximum>
+            <cli-arg>IP prefix length</cli-arg>
+        </type>
+        <type name="dmInetPort" init="number">
+            <cli-arg>port number</cli-arg>
+        </type>
+        <type name="dmInetPortNumber" init="number">
+            <minimum>0</minimum>
+            <maximum>65535</maximum>
+            <cli-arg>TCP or UDP port number</cli-arg>
+        </type>
+        <type name="dmIANAifType" init="enumeration">
+            <value-list>
+                <value name="other" evalue="1">
+                    <display>Other</display>
+                    <summary>Other interface type</summary>
+                    <description>Indicates it is on some generic interface type.</description>
+                </value>
+                <value name="ethernetCsmacd" evalue="6">
+                    <display>Ethernet</display>
+                    <summary>Physical Ethernet port</summary>
+                    <description>Indicates that it is on the base Ethernet MAC interface.</description>
+                </value>
+                <value name="softwareLoopback" evalue="24">
+                    <display>Software Loopback</display>
+                    <summary>Software Loopback port</summary>
+                    <description>Indicates that it is on the software loopback interface.</description>
+                </value>
+                <value name="tunnel" evalue="131">
+                    <display>Tunnel</display>
+                    <summary>Tunnel Interface</summary>
+                    <description>Indicates that it is on a encapsulation interface.</description>
+                </value>
+                <value name="l2vlan" evalue="135">
+                    <display>VLAN</display>
+                    <summary>IEEE 802.1q Virtual LAN</summary>
+                    <description>Indicates that it is on an IEEE 802.1Q VLAN on top of the base Ethernet MAC interface.</description>
+                </value>
+                <value name="ieee8023adLag" evalue="161">
+                    <display>Link Aggregation</display>
+                    <summary>Link Aggregation virtual interface</summary>
+                    <description>Indicates that it is on a Link Aggregation interface.</description>
+                </value>
+            </value-list>
+            <cli-arg>other | ethernetCsmacd | softwareLoopback | tunnel | l2vlan | ieee8023adLag</cli-arg>
+        </type>
+        <type name="dmDateTime" init="string">
+            <cli-arg>dateTime 'yyyy/MM/dd hh:mm:ss'</cli-arg>
+            <!--END NON-TRANSLATABLE-->
+        </type>
+
+</base-types>
