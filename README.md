@@ -47,6 +47,6 @@ The time, in milliseconds, after which the policy will declare the queue manager
 
 ## The build script
 
-In the Cross-Repository-Tools directory you will find the build script (package_dp_policy.sh). This can be run against a policy directory as follows: ./package$
+In the Cross-Repository-Tools directory you will find the build script (package_dp_policy.sh). This can be run against a policy directory as follows: ./package_dp_policy.sh -d mqinvoke-source/
 
-The script will also accept a number of flags to automate the publish of the output policy. Run package_dp_policy.sh -h to see the options. 
+The script will also accept a number of flags to automate the publish of the output policy. These can been identified via use of the -h flag 
