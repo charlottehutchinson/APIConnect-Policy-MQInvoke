@@ -1,6 +1,6 @@
 # User Defined Policy allowing API Connect to interact with MQ
 
-*Article Link*
+*Article Link will go here*
 
 The purpose of this tool is to use a custom policy to integrate an instance of API Connect with an MQ Queue Manager.
 
