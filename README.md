@@ -1,6 +1,6 @@
 # User Defined Policy allowing API Connect to interact with MQ
 
-*Article Link will go here*
+*https://www.ibm.com/developerworks/library/mw-1611-hutchinson-trs/index.html*
 
 The purpose of this tool is to use a custom policy to integrate an instance of API Connect with an MQ Queue Manager.
 
