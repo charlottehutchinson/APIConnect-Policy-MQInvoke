@@ -31,8 +31,8 @@ function InvalidSOAPResponse(SOAPResponse) {
     return APICMQErrorHelper("InvalidSOAPResponse", "APICMQ005 : Invalid SOAP Response  : Please check the BackOut Queue for the message", 400);
 }
 
-function InvalidRequest() {
-    return APICMQErrorHelper("InvalidResponse", "APICMQ006 : Error occurred when reading the message body. Please ensure the message body is vaild XML or JSON", 400);
+function InvalidRequest(SOAPResponse) {
+    return APICMQErrorHelper("InvalidResponse", "APICMQ006 : Error occured when reading the input was the inputData XML or JSON", 400);
 }
 
 function NoBOQ() {
@@ -41,9 +41,9 @@ function NoBOQ() {
 
 function MessageOnBoQ(data, response) {
 
-  if (boq == '') {
-      NoBOQ();
-  }
+    if (boq == '') {
+        NoBOQ();
+    }
     var h = response.get({
         type: 'mq'
     }, 'MQMD')
@@ -74,9 +74,20 @@ function process(xml) {
     var options = {
         target: mqURL,
         data: xml,
-        headers: {}
-    };
-
+        // messagetype: MsgType,
+        headers: {
+            MQMD: { // JSON object for specified header_name
+                MQMD: {
+                    MsgType: {
+                        "$": MsgType
+                    },
+                    ReplyToQ: {
+                        "$": ReplyToQ
+                    }
+                }
+            }
+        }
+    }
     //Try to open the mqURL
     try {
 
@@ -150,9 +161,14 @@ var respq = props.replyqueue
 var timeout = props.timeout
 
 var mqURL = "unset"
+var MsgType = -1;
+var ReplyToQ = "";
 if (respq == '') {
+    MsgType = 8
     mqURL = 'dpmq://' + qm + '/?RequestQueue=' + reqq + ';timeout=' + timeout
 } else {
+    MsgType = 1
+    ReplyToQ = respq
     mqURL = 'dpmq://' + qm + '/?RequestQueue=' + reqq + ';ReplyQueue=' + respq + ';timeout=' + timeout
 }
 var boqURL = 'dpmq://' + qm + '/?RequestQueue=' + boq + ';timeout=' + timeout
