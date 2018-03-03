@@ -6,6 +6,10 @@ var urlopen = require('urlopen');
 var apic = require('local:isp/policy/apim.custom.js');
 var props = apic.getPolicyProperty();
 
+
+
+var counter = 0;
+
 function APICMQErrorHelper(name, message, code) {
 
     if (!code) {
@@ -43,61 +47,50 @@ function MessageOnBoQ(data, response) {
 
     if (boq == '') {
         NoBOQ();
-    }
-    var h = response.get({
-        type: 'mq'
-    }, 'MQMD')
-    var newBOC = h.MQMD.BackoutCount.$ + 1
-    h.MQMD.BackoutCount = {
-        $: newBOC
-    }
-    var options = {
-        target: boqURL,
-        data: data,
-        headers: {
-            MQMD: h
-        }
-    };
-
-    urlopen.open(options, function(connectError, res) {
-        if (connectError) {
-            APICMQErrorHelper("ErrorPuttingMessageOnBO", connectError, 400);
-        }
-        console.error(res.get({
+    } else {
+        var h = response.get({
             type: 'mq'
-        }, 'MQMD'));
-        console.error(res)
-    });
-}
+        }, 'MQMD')
 
-function process(xml) {
-    var options = {
-        target: mqURL,
-        data: xml,
-        // messagetype: MsgType,
-        headers: {
-            MQMD: { // JSON object for specified header_name
-                MQMD: {
-                    MsgType: {
-                        "$": MsgType
-                    },
-                    ReplyToQ: {
-                        "$": ReplyToQ
-                    }
-                }
+        var newBOC = h.MQMD.BackoutCount.$ + 1
+        h.MQMD.BackoutCount = {
+            $: newBOC
+        }
+        var options = {
+            target: boqURL,
+            data: data,
+            headers: {
+                MQMD: h,
+                MQRFH2: MQRFH2
             }
         }
+        urlopen.open(options, function(connectError, res) {
+            if (connectError) {
+                APICMQErrorHelper("ErrorPuttingMessageOnBO", connectError, 400);
+            }
+            console.error(res.get({
+                type: 'mq'
+            }, 'MQMD'));
+            console.error(res)
+        });
     }
-    //Try to open the mqURL
+}
+
+
+function process(options) {
+    console.error(options);
+
     try {
 
         urlopen.open(options, function(connectError, res) {
             if (res) {
-                console.critical('Received MQ ' + res.statusCode + ' for target ' + options.target);
+                console.error('Received MQ ' + res.statusCode + ' for target ' + options.target);
             }
             if (connectError) {
                 NoQueueManagerFoundException(qm)
             } else if (res.statusCode === 0) {
+                console.error("Message on Queue");
+                console.error(options);
                 if (respq == '') {
                     var mqmd = XML.parse(res.get('MQMD'));
                     console.debug(mqmd);
@@ -118,8 +111,8 @@ function process(xml) {
                                         }
                                     });
                                 } else {
-                                    console.critical(jsonObj);
-                                    // apic.output('application/json');
+                                    console.error(jsonObj);
+                                    apic.output('application/json');
                                     session.output.write(jsonObj);
                                 }
                             });
@@ -136,14 +129,21 @@ function process(xml) {
             } else if (res.statusCode === 2033) {
                 ResponseTimeOutException()
             } else {
-                res.readAsBuffer(function(readAsBufferError, buffer) {
-                    console.critical("Attempting to parse the response message to put on the BackOut Queue");
-                    if (!readAsBufferError) {
-                        MessageOnBoQ(buffer, res.headers);
-                    }
-                });
-                var errorMessage = 'Thrown error on urlopen.open for target ' + options.target + ':   statusCode:' + res.statusCode
-                APICMQErrorHelper("Unknown Error", errorMessage, 400)
+                if (counter > 4) {
+                    res.readAsBuffer(function(readAsBufferError, buffer) {
+                        console.error("Attempting to parse the response message to put on the BackOut Queue");
+                        if (!readAsBufferError) {
+                            MessageOnBoQ(buffer, res.headers);
+                        }
+                    });
+
+                    var errorMessage = 'Thrown error on urlopen.open for target ' + options.target + ':   statusCode:' + res.statusCode
+                    APICMQErrorHelper("Unknown Error", errorMessage, 400)
+                } else {
+                    counter++;
+                    console.error('Failed to put message on to Queue Retry: ' + counter + ' of 5');
+                    process(options);
+                }
             }
 
         });
@@ -173,6 +173,61 @@ if (respq == '') {
 }
 var boqURL = 'dpmq://' + qm + '/?RequestQueue=' + boq + ';timeout=' + timeout
 
+var MQMD = {
+    MQMD: {
+        MsgType: {
+            "$": MsgType
+        },
+        ReplyToQ: {
+            "$": ReplyToQ
+        },
+        Format: {
+            "$": 'MQHRF2'
+        }
+    }
+}
+// '<MQMD>' +
+//    '<StructId>MD</StructId>' +
+//    '<Format>MQHRF2</Format>' +
+//    '<MsgType>' + MsgType + '</MsgType>' +
+//    '<Persistence>1</Persistence>' +
+//    '<ReplyToQ>' + ReplyToQ + '</ReplyToQ>' +
+//    '</MQMD>'
+//
+
+
+// var MQRFH2 = '<MQRFH2>' +
+//     '<Version>' + props.vrsn + '</Version>' +
+//     '<Format>' + props.format + '</Format>' +
+//     '<StrucId>'+props.structid+'</StrucId>'+
+//     '</MQRFH2>';
+var MQRFH2 = {
+    MQRFH2: {
+
+        StrucId: {
+            "$": props.structid
+        },
+        Version: {
+            "$": props.vrsn
+        },
+        Format: {
+            "$": props.format
+        },
+        Encoding: {
+            "$": props.encoding
+        },
+        CodedCharSetId: {
+            "$": props.CodedCharSetId
+        },
+        Flags: {
+            "$": props.flags
+        },
+        NameValueCCSID: {
+            "$": props.NameValueCCSID
+        }
+    }
+}
+
 var outputObject = {};
 
 //Read the payload as XML
@@ -182,10 +237,26 @@ apic.readInputAsXML(function(readError, xml) {
             if (readError) {
                 InvalidRequest();
             } else {
-                process(json)
+                process({
+                    target: mqURL,
+                    data: json,
+                    headers: {
+                        MQMD: MQMD,
+                        MQRFH2: MQRFH2
+                    }
+                });
             }
         });
     } else {
-        process(xml)
-    }
+        process({
+            target: mqURL,
+            data: xml,
+            headers: {
+                MQMD: MQMD,
+                MQRFH2: MQRFH2
+
+            }
+        })
+
+    };
 });

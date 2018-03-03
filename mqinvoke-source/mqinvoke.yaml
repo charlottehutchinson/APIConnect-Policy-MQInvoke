@@ -7,7 +7,7 @@ policy: 1.0.0
 info:
   title: MQ Invoke
   name: mqinvoke
-  version: 1.0.0
+  version: 1.1
   description: MQ Invocation from DataPower
   contact:
         name: Jack dunleavy
@@ -34,21 +34,61 @@ properties:
             description: The Queue to be used
             type: string
         replyqueue:
-             label: Reply Queue name
-             description: "The Reply Queue to be used, leave blank if not Synchronous"
-             type: string
+            label: Reply Queue name
+            description: "The Reply Queue to be used, leave blank if not Synchronous"
+            type: string
         backoutq:
-              label: BackOut queue name
-              description: "Backout Queue name"
-              type: string
+            label: BackOut queue name
+            description: "Backout Queue name"
+            type: string
         timeout:
-            label: Timeout
+            label:  Timeout
             description: Timeout in milliseconds
-            type: number
-            default: 100
+            type: string
+        structid:
+            label:  StructureId
+            description:    The structure Id
+            type:   string
+            default: RFH
+        vrsn:
+            label:  Version
+            description:    Version
+            type:   string
+            default: MQRFH_VERSION_2
+        encoding:
+            label: Encoding
+            description:    The encoding
+            type:   string
+            default: MQENC_NATIVE
+        CodedCharSetId:
+            label:  CodedCharSetId
+            description:    The coded character
+            type:   string
+            default: MQCCSI_INHERIT
+        format:
+            label:  Format
+            type:   string
+            default: MQSTR
+        flags:
+            label:  Flags
+            description: The flags
+            type:   string
+            default: MQRFH_NONE
+        NameValueCCSID:
+            label:  Name Value CCSID
+            description: The coded character set ID (NameValueCCSID)
+            type:   string
+            default: "1208"
     required:
       - queuemanager
       - queue
       - timeout
+      - vrsn
+      - encoding
+      - CodedCharSetId
+      - format
+      - flags
+      - NameValueCCSID
+
 gateways:
     - datapower-gateway
